@@ -43,6 +43,15 @@ body {
     background: var(--dark-bg);
     color: var(--text-dark);
     line-height: 1.6;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+a, button {
+    -webkit-tap-highlight-color: rgba(255, 107, 157, 0.3);
+    touch-action: manipulation;
 }
 
 @media (min-width: 768px) {
@@ -82,6 +91,13 @@ body {
     height: 100%;
     pointer-events: none;
     z-index: 9998;
+    display: none;
+}
+
+@media (min-width: 768px) {
+    #mouseTrail {
+        display: block;
+    }
 }
 
 /* Particles Canvas */
@@ -93,6 +109,12 @@ body {
     height: 100%;
     pointer-events: none;
     z-index: 1;
+}
+
+@media (max-width: 767px) {
+    #particles {
+        opacity: 0.3;
+    }
 }
 
 .container {
@@ -1120,61 +1142,315 @@ section {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+    section {
+        padding: 60px 0;
+    }
+    
+    .hero {
+        min-height: 100vh;
+        padding: 20px 0;
+    }
+    
     .hero-content {
         padding: 0 20px;
     }
     
     .main-title {
-        font-size: 3rem;
+        font-size: 2.5rem;
+        gap: 5px;
+    }
+    
+    .main-title .letter {
+        font-size: 2.5rem;
     }
     
     .subtitle {
+        font-size: 1.8rem;
+    }
+    
+    .hero-text {
+        font-size: 1.1rem;
+        margin: 20px 0;
+    }
+    
+    .cta-button {
+        padding: 15px 40px;
+        font-size: 1rem;
+    }
+    
+    .scroll-indicator {
+        bottom: 20px;
+    }
+    
+    .scroll-indicator p {
+        font-size: 0.8rem;
+    }
+    
+    .section-title {
         font-size: 2rem;
     }
     
     .poem-card {
-        padding: 40px 30px;
+        padding: 30px 20px;
+        border-radius: 20px;
+    }
+    
+    .poem-title {
+        font-size: 1.8rem;
+    }
+    
+    .poem-text {
+        font-size: 1rem;
+        line-height: 1.8;
+    }
+    
+    .poem-line {
+        margin-bottom: 10px;
     }
     
     .voice-card {
         grid-template-columns: 1fr;
         text-align: center;
+        padding: 30px 20px;
+        gap: 30px;
     }
     
     .voice-circle {
-        width: 150px;
-        height: 150px;
+        width: 120px;
+        height: 120px;
+        margin: 0 auto;
+    }
+    
+    .voice-icon {
+        font-size: 3rem;
+    }
+    
+    .voice-content h3 {
+        font-size: 1.5rem;
+    }
+    
+    .audio-player {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .play-btn {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .audio-visualizer {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .video-card {
+        margin-bottom: 20px;
+    }
+    
+    .video-description h3 {
+        font-size: 1.8rem;
+    }
+    
+    .video-description p {
+        font-size: 1rem;
     }
     
     .gallery-grid {
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 20px;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 15px;
+    }
+    
+    .gallery-heart {
+        font-size: 3rem;
+    }
+    
+    .gallery-content p {
+        font-size: 1rem;
     }
     
     .floating-nav {
-        flex-wrap: wrap;
-        max-width: 90%;
-        padding: 10px 15px;
+        flex-wrap: nowrap;
+        max-width: 95%;
+        padding: 12px 20px;
+        bottom: 20px;
     }
     
     .nav-item {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+    
+    .nav-item::before {
+        display: none;
+    }
+    
+    .lightbox-content {
+        max-width: 95%;
+        max-height: 85%;
+    }
+    
+    .close-lightbox {
+        top: 15px;
+        right: 15px;
+        font-size: 2rem;
+        width: 40px;
+        height: 40px;
+    }
+    
+    .lightbox-nav {
+        padding: 0 15px;
+    }
+    
+    .prev-btn, .next-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+        padding: 10px 15px;
+    }
+    
+    .final-section {
+        padding: 80px 0;
+    }
+    
+    .final-message h2 {
+        font-size: 2rem;
+    }
+    
+    .final-text-main {
+        font-size: 1.2rem;
+    }
+    
+    .final-text-sub {
+        font-size: 1rem;
+    }
+    
+    .final-heart {
+        font-size: 2rem;
+    }
+    
+    .container {
+        padding: 0 15px;
+    }
+    
+    .gradient-orb {
+        filter: blur(60px);
+    }
+    
+    .orb-1 {
+        width: 300px;
+        height: 300px;
+    }
+    
+    .orb-2 {
+        width: 250px;
+        height: 250px;
+    }
+    
+    .orb-3 {
+        width: 200px;
+        height: 200px;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-title {
+        font-size: 2rem;
+    }
+    
+    .main-title .letter {
+        font-size: 2rem;
+    }
+    
+    .subtitle {
+        font-size: 1.5rem;
+    }
+    
+    .section-title {
+        font-size: 1.8rem;
+    }
+    
+    .poem-card {
+        padding: 25px 15px;
+    }
+    
+    .poem-title {
+        font-size: 1.5rem;
+    }
+    
+    .poem-text {
+        font-size: 0.95rem;
+    }
+    
+    .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+    
+    .floating-nav {
+        padding: 10px 15px;
+        gap: 10px;
+    }
+    
+    .nav-item {
+        width: 35px;
+        height: 35px;
+        font-size: 0.9rem;
+    }
+    
+    .voice-card {
+        padding: 25px 15px;
+    }
+    
+    .voice-circle {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .voice-icon {
+        font-size: 2.5rem;
+    }
+    
+    .lightbox-content {
+        max-width: 98%;
+        max-height: 80%;
+    }
+    
+    .close-lightbox {
+        top: 10px;
+        right: 10px;
+        width: 35px;
+        height: 35px;
+        font-size: 1.5rem;
+    }
+    
+    .prev-btn, .next-btn {
         width: 45px;
         height: 45px;
         font-size: 1.2rem;
     }
-    
-    .close-lightbox {
-        top: 20px;
-        right: 20px;
-        font-size: 2rem;
-    }
-    
-    .lightbox-nav {
-        padding: 0 20px;
+}
+
+/* Prevent text selection on mobile for better UX */
+@media (max-width: 768px) {
+    .poem-text, .hero-text, .final-text-main, .final-text-sub {
+        -webkit-user-select: text;
+        user-select: text;
     }
 }
 
 /* Tilt Effect */
 [data-tilt] {
     transition: transform 0.3s ease;
+}
+
+@media (max-width: 768px) {
+    [data-tilt] {
+        transition: none;
+    }
+    
+    [data-tilt]:hover {
+        transform: none !important;
+    }
 }
