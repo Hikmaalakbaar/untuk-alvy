@@ -6,12 +6,15 @@ window.addEventListener('scroll', () => {
     progressFill.style.width = scrolled + '%';
 });
 
+// ==================== Detect Mobile Device ====================
+const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
+
 // ==================== Custom Cursor ====================
 let cursorX = 0;
 let cursorY = 0;
 let cursorElement = null;
 
-if (window.innerWidth >= 768) {
+if (!isMobile && window.innerWidth >= 768) {
     cursorElement = document.createElement('div');
     cursorElement.style.cssText = `
         position: fixed;
@@ -64,7 +67,7 @@ if (window.innerWidth >= 768) {
 
 // ==================== Mouse Trail Effect ====================
 const mouseTrailCanvas = document.getElementById('mouseTrail');
-if (mouseTrailCanvas) {
+if (mouseTrailCanvas && !isMobile) {
     const trailCtx = mouseTrailCanvas.getContext('2d');
     mouseTrailCanvas.width = window.innerWidth;
     mouseTrailCanvas.height = window.innerHeight;
@@ -115,93 +118,100 @@ if (mouseTrailCanvas) {
         requestAnimationFrame(drawTrail);
     }
     drawTrail();
+} else if (mouseTrailCanvas) {
+    mouseTrailCanvas.style.display = 'none';
 }
 
 // ==================== Particle System ====================
 const particlesCanvas = document.getElementById('particles');
-const particlesCtx = particlesCanvas.getContext('2d');
-particlesCanvas.width = window.innerWidth;
-particlesCanvas.height = window.innerHeight;
+if (particlesCanvas) {
+    const particlesCtx = particlesCanvas.getContext('2d');
+    particlesCanvas.width = window.innerWidth;
+    particlesCanvas.height = window.innerHeight;
 
-const particles = [];
-const particleCount = 50;
+    const particles = [];
+    const particleCount = isMobile ? 20 : 50; // Reduce particles on mobile for performance
 
-class Particle {
-    constructor() {
-        this.reset();
-    }
-    
-    reset() {
-        this.x = Math.random() * particlesCanvas.width;
-        this.y = Math.random() * particlesCanvas.height;
-        this.size = Math.random() * 3 + 1;
-        this.speedX = (Math.random() - 0.5) * 0.5;
-        this.speedY = (Math.random() - 0.5) * 0.5;
-        this.opacity = Math.random() * 0.5 + 0.2;
-        this.color = [
-            'rgba(255, 107, 157, ',
-            'rgba(199, 125, 255, ',
-            'rgba(78, 205, 196, ',
-            'rgba(255, 230, 109, '
-        ][Math.floor(Math.random() * 4)];
-    }
-    
-    update() {
-        this.x += this.speedX;
-        this.y += this.speedY;
+    class Particle {
+        constructor() {
+            this.reset();
+        }
         
-        if (this.x < 0 || this.x > particlesCanvas.width) this.speedX *= -1;
-        if (this.y < 0 || this.y > particlesCanvas.height) this.speedY *= -1;
-    }
-    
-    draw() {
-        particlesCtx.fillStyle = this.color + this.opacity + ')';
-        particlesCtx.beginPath();
-        particlesCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        particlesCtx.fill();
-    }
-}
-
-for (let i = 0; i < particleCount; i++) {
-    particles.push(new Particle());
-}
-
-function connectParticles() {
-    for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-            const dx = particles[i].x - particles[j].x;
-            const dy = particles[i].y - particles[j].y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
+        reset() {
+            this.x = Math.random() * particlesCanvas.width;
+            this.y = Math.random() * particlesCanvas.height;
+            this.size = Math.random() * 3 + 1;
+            this.speedX = (Math.random() - 0.5) * 0.5;
+            this.speedY = (Math.random() - 0.5) * 0.5;
+            this.opacity = Math.random() * 0.5 + 0.2;
+            this.color = [
+                'rgba(255, 107, 157, ',
+                'rgba(199, 125, 255, ',
+                'rgba(78, 205, 196, ',
+                'rgba(255, 230, 109, '
+            ][Math.floor(Math.random() * 4)];
+        }
+        
+        update() {
+            this.x += this.speedX;
+            this.y += this.speedY;
             
-            if (distance < 150) {
-                particlesCtx.strokeStyle = `rgba(255, 107, 157, ${0.2 * (1 - distance / 150)})`;
-                particlesCtx.lineWidth = 1;
-                particlesCtx.beginPath();
-                particlesCtx.moveTo(particles[i].x, particles[i].y);
-                particlesCtx.lineTo(particles[j].x, particles[j].y);
-                particlesCtx.stroke();
+            if (this.x < 0 || this.x > particlesCanvas.width) this.speedX *= -1;
+            if (this.y < 0 || this.y > particlesCanvas.height) this.speedY *= -1;
+        }
+        
+        draw() {
+            particlesCtx.fillStyle = this.color + this.opacity + ')';
+            particlesCtx.beginPath();
+            particlesCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            particlesCtx.fill();
+        }
+    }
+
+    for (let i = 0; i < particleCount; i++) {
+        particles.push(new Particle());
+    }
+
+    function connectParticles() {
+        const maxDistance = isMobile ? 100 : 150; // Reduce connection distance on mobile
+        for (let i = 0; i < particles.length; i++) {
+            for (let j = i + 1; j < particles.length; j++) {
+                const dx = particles[i].x - particles[j].x;
+                const dy = particles[i].y - particles[j].y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                
+                if (distance < maxDistance) {
+                    particlesCtx.strokeStyle = `rgba(255, 107, 157, ${0.2 * (1 - distance / maxDistance)})`;
+                    particlesCtx.lineWidth = 1;
+                    particlesCtx.beginPath();
+                    particlesCtx.moveTo(particles[i].x, particles[i].y);
+                    particlesCtx.lineTo(particles[j].x, particles[j].y);
+                    particlesCtx.stroke();
+                }
             }
         }
     }
-}
 
-function animateParticles() {
-    particlesCtx.clearRect(0, 0, particlesCanvas.width, particlesCanvas.height);
-    
-    particles.forEach(particle => {
-        particle.update();
-        particle.draw();
+    function animateParticles() {
+        particlesCtx.clearRect(0, 0, particlesCanvas.width, particlesCanvas.height);
+        
+        particles.forEach(particle => {
+            particle.update();
+            particle.draw();
+        });
+        
+        if (!isMobile) {
+            connectParticles(); // Skip connections on mobile for better performance
+        }
+        requestAnimationFrame(animateParticles);
+    }
+    animateParticles();
+
+    window.addEventListener('resize', () => {
+        particlesCanvas.width = window.innerWidth;
+        particlesCanvas.height = window.innerHeight;
     });
-    
-    connectParticles();
-    requestAnimationFrame(animateParticles);
 }
-animateParticles();
-
-window.addEventListener('resize', () => {
-    particlesCanvas.width = window.innerWidth;
-    particlesCanvas.height = window.innerHeight;
-});
 
 // ==================== Confetti Effect ====================
 function createConfetti() {
@@ -468,16 +478,16 @@ document.querySelectorAll('.poem-card, .voice-card, .video-card, .gallery-item')
     observer.observe(el);
 });
 
-// ==================== Floating Hearts on Click ====================
-document.addEventListener('click', (e) => {
-    if (Math.random() > 0.7 && !e.target.closest('.lightbox')) {
+// ==================== Floating Hearts on Click/Touch ====================
+function createHeartAtPosition(x, y) {
+    if (Math.random() > 0.7) {
         const hearts = ['💖', '💕', '💗', '❤️', '💝'];
         const heart = document.createElement('div');
         heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
         heart.style.position = 'fixed';
-        heart.style.left = e.clientX + 'px';
-        heart.style.top = e.clientY + 'px';
-        heart.style.fontSize = '25px';
+        heart.style.left = x + 'px';
+        heart.style.top = y + 'px';
+        heart.style.fontSize = isMobile ? '20px' : '25px';
         heart.style.pointerEvents = 'none';
         heart.style.zIndex = '9999';
         heart.style.animation = 'heartClick 1s ease-out forwards';
@@ -487,6 +497,20 @@ document.addEventListener('click', (e) => {
         setTimeout(() => {
             heart.remove();
         }, 1000);
+    }
+}
+
+document.addEventListener('click', (e) => {
+    if (!e.target.closest('.lightbox')) {
+        createHeartAtPosition(e.clientX, e.clientY);
+    }
+});
+
+// Touch support for mobile
+document.addEventListener('touchstart', (e) => {
+    if (e.touches.length > 0 && !e.target.closest('.lightbox')) {
+        const touch = e.touches[0];
+        createHeartAtPosition(touch.clientX, touch.clientY);
     }
 });
 
@@ -507,42 +531,46 @@ style.textContent = `
 document.head.appendChild(style);
 
 // ==================== Tilt Effect ====================
-const tiltElements = document.querySelectorAll('[data-tilt]');
-tiltElements.forEach(element => {
-    element.addEventListener('mousemove', (e) => {
-        const rect = element.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
+if (!isMobile) {
+    const tiltElements = document.querySelectorAll('[data-tilt]');
+    tiltElements.forEach(element => {
+        element.addEventListener('mousemove', (e) => {
+            const rect = element.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            const rotateX = (y - centerY) / 10;
+            const rotateY = (centerX - x) / 10;
+            
+            element.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
+        });
         
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-        
-        const rotateX = (y - centerY) / 10;
-        const rotateY = (centerX - x) / 10;
-        
-        element.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
+        element.addEventListener('mouseleave', () => {
+            element.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
+        });
     });
-    
-    element.addEventListener('mouseleave', () => {
-        element.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
-    });
-});
+}
 
 // ==================== Parallax Effect ====================
-window.addEventListener('scroll', () => {
-    const scrolled = window.pageYOffset;
-    const hero = document.querySelector('.hero');
-    if (hero) {
-        hero.style.transform = `translateY(${scrolled * 0.3}px)`;
-    }
-    
-    // Parallax for orbs
-    const orbs = document.querySelectorAll('.gradient-orb');
-    orbs.forEach((orb, index) => {
-        const speed = (index + 1) * 0.1;
-        orb.style.transform = `translateY(${scrolled * speed}px)`;
+if (!isMobile) {
+    window.addEventListener('scroll', () => {
+        const scrolled = window.pageYOffset;
+        const hero = document.querySelector('.hero');
+        if (hero) {
+            hero.style.transform = `translateY(${scrolled * 0.3}px)`;
+        }
+        
+        // Parallax for orbs
+        const orbs = document.querySelectorAll('.gradient-orb');
+        orbs.forEach((orb, index) => {
+            const speed = (index + 1) * 0.1;
+            orb.style.transform = `translateY(${scrolled * speed}px)`;
+        });
     });
-});
+}
 
 // ==================== Floating Navigation Active State ====================
 const floatingNav = document.getElementById('floatingNav');
@@ -584,6 +612,7 @@ window.addEventListener('load', () => {
 });
 
 // ==================== Auto-create Floating Hearts ====================
+const heartInterval = isMobile ? 4000 : 2000; // Less frequent on mobile
 setInterval(() => {
     if (Math.random() > 0.5) {
         const hearts = ['💖', '💕', '💗'];
@@ -592,7 +621,7 @@ setInterval(() => {
         heart.style.position = 'fixed';
         heart.style.left = Math.random() * 100 + '%';
         heart.style.top = '100%';
-        heart.style.fontSize = Math.random() * 20 + 15 + 'px';
+        heart.style.fontSize = (isMobile ? Math.random() * 15 + 10 : Math.random() * 20 + 15) + 'px';
         heart.style.opacity = Math.random() * 0.5 + 0.5;
         heart.style.pointerEvents = 'none';
         heart.style.zIndex = '9999';
@@ -609,6 +638,6 @@ setInterval(() => {
             heart.remove();
         }, 8000);
     }
-}, 2000);
+}, heartInterval);
 
 console.log('💕 Website untuk Alvy Adelya telah dimuat! Semoga berhasil! 💕');
