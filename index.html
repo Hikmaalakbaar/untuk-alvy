@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Untuk Alvy Adelya 💕</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Mouse Trail Effect -->
+    <canvas id="mouseTrail"></canvas>
+    
+    <!-- Particle Background -->
+    <canvas id="particles"></canvas>
+    
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero-background">
+            <div class="gradient-orb orb-1"></div>
+            <div class="gradient-orb orb-2"></div>
+            <div class="gradient-orb orb-3"></div>
+        </div>
+        <div class="hero-content">
+            <div class="name-reveal">
+                <h1 class="main-title">
+                    <span class="letter" data-letter="A">A</span>
+                    <span class="letter" data-letter="l">l</span>
+                    <span class="letter" data-letter="v">v</span>
+                    <span class="letter" data-letter="y">y</span>
+                </h1>
+                <h2 class="subtitle">Adelya</h2>
+            </div>
+            <p class="hero-text">Ada sesuatu yang ingin kukatakan...</p>
+            <div class="heart-container">
+                <div class="floating-heart">💖</div>
+                <div class="floating-heart">💕</div>
+                <div class="floating-heart">💗</div>
+            </div>
+            <button class="cta-button" id="revealBtn">
+                <span>Buka Pesanku</span>
+                <div class="button-shine"></div>
+            </button>
+        </div>
+        <div class="scroll-indicator">
+            <div class="mouse">
+                <div class="wheel"></div>
+            </div>
+            <p>Scroll untuk melihat lebih banyak</p>
+        </div>
+    </section>
+
+    <!-- Poem Section -->
+    <section class="poem-section" id="poem">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Puisi untuk Alvy</h2>
+                <div class="title-decoration"></div>
+            </div>
+            <div class="poem-card" data-tilt>
+                <div class="poem-content">
+                    <div class="poem-icon">📜</div>
+                    <h3 class="poem-title">Di Antara Semua Bintang</h3>
+                    <div class="poem-text">
+                        <p class="poem-line">Di antara bintang-bintang yang berkelip,</p>
+                        <p class="poem-line">Kau adalah yang paling terang bersinar,</p>
+                        <p class="poem-line">Setiap senyummu bagai bulan purnama,</p>
+                        <p class="poem-line">Menerangi gelap malamku.</p>
+                        <br>
+                        <p class="poem-line">Di antara bunga-bunga yang mekar,</p>
+                        <p class="poem-line">Kau adalah yang paling indah,</p>
+                        <p class="poem-line">Setiap langkahmu meninggalkan wangi,</p>
+                        <p class="poem-line">Yang membuatku selalu ingin dekat.</p>
+                        <br>
+                        <p class="poem-line">Di antara semua orang di dunia,</p>
+                        <p class="poem-line">Kau adalah yang paling berarti,</p>
+                        <p class="poem-line">Setiap detik bersamamu adalah berkat,</p>
+                        <p class="poem-line">Yang membuat hidupku sempurna.</p>
+                    </div>
+                    <div class="poem-signature">
+                        <p>- Dengan cinta yang tulus,</p>
+                        <p class="signature-name">Untuk Alvy Adelya</p>
+                    </div>
+                </div>
+                <div class="poem-decoration"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Voice Note Section -->
+    <section class="voice-section" id="voice">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Pesan Suara</h2>
+                <div class="title-decoration"></div>
+            </div>
+            <div class="voice-card">
+                <div class="voice-visual">
+                    <div class="voice-circle">
+                        <div class="voice-icon">🎤</div>
+                        <div class="ripple ripple-1"></div>
+                        <div class="ripple ripple-2"></div>
+                        <div class="ripple ripple-3"></div>
+                    </div>
+                </div>
+                <div class="voice-content">
+                    <h3>Dengarkan Pesanku, Alvy</h3>
+                    <p>Ada sesuatu yang ingin kusampaikan dengan suaraku</p>
+                    <div class="audio-player">
+                        <button id="playBtn" class="play-btn">
+                            <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M8 5v14l11-7z"/>
+                            </svg>
+                            <svg class="pause-icon" viewBox="0 0 24 24" fill="currentColor" style="display: none;">
+                                <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
+                            </svg>
+                        </button>
+                        <div class="audio-visualizer">
+                            <div class="visualizer-bar"></div>
+                            <div class="visualizer-bar"></div>
+                            <div class="visualizer-bar"></div>
+                            <div class="visualizer-bar"></div>
+                            <div class="visualizer-bar"></div>
+                            <div class="visualizer-bar"></div>
+                            <div class="visualizer-bar"></div>
+                            <div class="visualizer-bar"></div>
+                        </div>
+                    </div>
+                    <p class="voice-note"></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video Section -->
+    <section class="video-section" id="video">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Video Cinta</h2>
+                <div class="title-decoration"></div>
+            </div>
+            <div class="video-card">
+                <div class="video-wrapper">
+                    <video id="loveVideo" controls>
+                        <source src="videos/love-video.mp4" type="video/mp4">
+                        Browser Anda tidak mendukung tag video.
+                    </video>
+                    <div class="video-overlay" id="videoOverlay">
+                        <div class="play-overlay">
+                            <div class="play-button-large">
+                                <svg viewBox="0 0 24 24" fill="white">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </div>
+                            <p>Klik untuk memutar video</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="video-description">
+                    <h3></h3>
+                    <p></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Photo Gallery Section -->
+    <section class="gallery-section" id="gallery">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Galeri Foto</h2>
+                <div class="title-decoration"></div>
+                <p class="section-subtitle">Galerimu yang selalu kulihat setiap saat</p>
+            </div>
+            <div class="gallery-grid" id="galleryGrid">
+                <div class="gallery-item" data-tilt>
+                    <div class="gallery-image-wrapper">
+                        <img src="images/photo1.jpg" alt="Foto 1" loading="lazy" onerror="this.src='https://via.placeholder.com/500x500/FF6B9D/FFFFFF?text=Photo+1'">
+                    </div>
+                    <div class="gallery-overlay">
+                        <div class="gallery-content">
+                            <span class="gallery-heart">💖</span>
+                            <p>Kenangan Indah</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="gallery-item" data-tilt>
+                    <div class="gallery-image-wrapper">
+                        <img src="images/photo2.jpg" alt="Foto 2" loading="lazy" onerror="this.src='https://via.placeholder.com/500x500/FF6B9D/FFFFFF?text=Photo+2'">
+                    </div>
+                    <div class="gallery-overlay">
+                        <div class="gallery-content">
+                            <span class="gallery-heart">💕</span>
+                            <p>Momen Spesial</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="gallery-item" data-tilt>
+                    <div class="gallery-image-wrapper">
+                        <img src="images/photo3.jpg" alt="Foto 3" loading="lazy" onerror="this.src='https://via.placeholder.com/500x500/FF6B9D/FFFFFF?text=Photo+3'">
+                    </div>
+                    <div class="gallery-overlay">
+                        <div class="gallery-content">
+                            <span class="gallery-heart">💗</span>
+                            <p>Untukmu</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="gallery-item" data-tilt>
+                    <div class="gallery-image-wrapper">
+                        <img src="images/photo4.jpg" alt="Foto 4" loading="lazy" onerror="this.src='https://via.placeholder.com/500x500/FF6B9D/FFFFFF?text=Photo+4'">
+                    </div>
+                    <div class="gallery-overlay">
+                        <div class="gallery-content">
+                            <span class="gallery-heart">💖</span>
+                            <p>Selamanya</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="gallery-item" data-tilt>
+                    <div class="gallery-image-wrapper">
+                        <img src="images/photo5.jpg" alt="Foto 5" loading="lazy" onerror="this.src='https://via.placeholder.com/500x500/FF6B9D/FFFFFF?text=Photo+5'">
+                    </div>
+                    <div class="gallery-overlay">
+                        <div class="gallery-content">
+                            <span class="gallery-heart">💕</span>
+                            <p>Untukmu</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="gallery-item" data-tilt>
+                    <div class="gallery-image-wrapper">
+                        <img src="images/photo6.jpg" alt="Foto 6" loading="lazy" onerror="this.src='https://via.placeholder.com/500x500/FF6B9D/FFFFFF?text=Photo+6'">
+                    </div>
+                    <div class="gallery-overlay">
+                        <div class="gallery-content">
+                            <span class="gallery-heart">💗</span>
+                            <p>Dengan Cinta</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox" class="lightbox">
+        <span class="close-lightbox">&times;</span>
+        <img class="lightbox-content" id="lightboxImg">
+        <div class="lightbox-nav">
+            <button class="prev-btn">❮</button>
+            <button class="next-btn">❯</button>
+        </div>
+    </div>
+
+    <!-- Final Message Section -->
+    <section class="final-section" id="final">
+        <div class="container">
+            <div class="final-message">
+                <div class="final-hearts">
+                    <span class="final-heart">💖</span>
+                    <span class="final-heart">💕</span>
+                    <span class="final-heart">💗</span>
+                </div>
+                <h2>Terima Kasih, Alvy</h2>
+                <p class="final-text-main">Terima kasih telah menjadi bagian dari hidupku</p>
+                <p class="final-text-sub">Aku berharap website kecil ini bisa menyampaikan perasaanku</p>
+                <div class="final-signature">
+                    <p>Dengan cinta yang tulus,</p>
+                    <p class="signature">Untukmu selalu</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Floating Navigation -->
+    <nav class="floating-nav" id="floatingNav">
+        <a href="#poem" class="nav-item" data-tooltip="Puisi">
+            <span>📜</span>
+        </a>
+        <a href="#voice" class="nav-item" data-tooltip="Suara">
+            <span>🎤</span>
+        </a>
+        <a href="#video" class="nav-item" data-tooltip="Video">
+            <span>🎥</span>
+        </a>
+        <a href="#gallery" class="nav-item" data-tooltip="Galeri">
+            <span>📸</span>
+        </a>
+    </nav>
+
+    <!-- Progress Bar -->
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

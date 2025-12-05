@@ -1,0 +1,19 @@
+# Media files (add your own files)
+images/*.jpg
+images/*.jpeg
+images/*.png
+videos/*.mp4
+videos/*.webm
+audio/*.mp3
+audio/*.mp4
+audio/*.wav
+
+# Keep folder structure
+!images/.gitkeep
+!videos/.gitkeep
+!audio/.gitkeep
+
+# OS files
+.DS_Store
+Thumbs.db
+
